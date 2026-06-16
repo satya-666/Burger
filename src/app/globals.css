@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+:root {
+  --beige: #e8dccb;
+  --beige-dark: #d4c4ad;
+  --red: #ff2b1d;
+  --red-dark: #d92216;
+  --yellow: #ffd93d;
+  --yellow-warm: #f5c518;
+  --charcoal: #1a1410;
+  --cream: #faf6f0;
+}
+
+@theme inline {
+  --color-beige: var(--beige);
+  --color-beige-dark: var(--beige-dark);
+  --color-red: var(--red);
+  --color-red-dark: var(--red-dark);
+  --color-yellow: var(--yellow);
+  --color-yellow-warm: var(--yellow-warm);
+  --color-charcoal: var(--charcoal);
+  --color-cream: var(--cream);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+body {
+  background: var(--beige);
+  color: var(--charcoal);
+  font-family: var(--font-body), system-ui, sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+@media (max-width: 768px) {
+  body {
+    cursor: auto;
+  }
+}
+
+::selection {
+  background: var(--red);
+  color: white;
+}
+
+.display-text {
+  font-family: var(--font-display), system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: -0.04em;
+  line-height: 0.85;
+}
+
+.text-stroke {
+  -webkit-text-stroke: 2px var(--charcoal);
+  color: transparent;
+}
+
+.grain-overlay {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+.wavy-divider {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.image-mask-circle {
+  clip-path: circle(50% at 50% 50%);
+}
+
+.image-mask-arch {
+  clip-path: ellipse(50% 45% at 50% 50%);
+}
+
+.card-tilt {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.noise-bg {
+  background-image: radial-gradient(circle at 20% 20%, rgba(255, 43, 29, 0.06), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(255, 217, 61, 0.08), transparent 35%);
+}
