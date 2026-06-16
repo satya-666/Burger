@@ -57,32 +57,29 @@ export default function CallToAction() {
       ref={sectionRef}
       className="relative overflow-hidden bg-red py-24 md:py-40"
     >
-      <span className="cta-bg-text display-text pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none text-[25vw] text-white/[0.06]">
-        BITE
+      <span className="cta-bg-text display-text pointer-events-none absolute bottom-[-0.18em] left-1/2 -translate-x-1/2 select-none text-[24vw] leading-none text-cream/[0.16]">
+        ORDER
       </span>
 
-      <div className="cta-circle absolute -left-20 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full border-2 border-white/10 md:h-60 md:w-60" />
-      <div className="cta-circle absolute -right-16 bottom-0 h-32 w-32 rounded-full bg-yellow/20 md:h-48 md:w-48" />
+      <div className="cta-circle absolute -left-20 top-1/2 h-40 w-40 -translate-y-1/2 rounded-full bg-yellow md:h-60 md:w-60" />
+      <div className="cta-circle absolute -right-16 bottom-0 h-32 w-32 rounded-full bg-cream/20 md:h-48 md:w-48" />
 
       <div className="cta-content relative mx-auto max-w-4xl px-5 text-center md:px-8">
-        <span className="mb-6 inline-block rounded-full bg-yellow px-5 py-2 text-xs font-bold uppercase tracking-wider text-charcoal">
+        <span className="sticker-outline display-text mb-6 inline-block rotate-[-4deg] rounded-full bg-yellow px-5 py-2 text-2xl text-charcoal">
           Limited Time
         </span>
 
-        <h2 className="display-text mb-6 text-5xl text-white md:text-7xl lg:text-8xl">
-          Ready to
-          <br />
-          Taste Fire?
+        <h2 className="display-text mb-6 text-6xl text-cream md:text-8xl lg:text-[9rem]">
+          Toasting The Artisan Bun
         </h2>
 
-        <p className="mx-auto mb-10 max-w-lg text-base leading-relaxed text-white/80 md:text-lg">
-          Join thousands of burger lovers. Order online for pickup or delivery,
-          or reserve a table for the full FLAME&BUN experience.
+        <p className="mx-auto mb-10 max-w-lg text-base font-black uppercase leading-relaxed text-cream/90 md:text-xl">
+          Order online for pickup or delivery, wrapped hot and stacked fresh.
         </p>
 
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
           <MagneticButton variant="secondary">Order Online</MagneticButton>
-          <MagneticButton variant="outline" className="!border-white !text-white hover:!bg-white hover:!text-red">
+          <MagneticButton variant="outline" className="!border-cream !text-charcoal hover:!bg-charcoal hover:!text-cream">
             Book a Table
           </MagneticButton>
         </div>

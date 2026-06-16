@@ -94,119 +94,95 @@ export default function Hero() {
       ref={sectionRef}
       className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-5 pt-24 md:px-8"
     >
-      {/* Decorative shapes */}
-      <div className="hero-float-shape absolute left-[5%] top-[20%] h-16 w-16 rounded-full bg-yellow/40 blur-sm md:h-24 md:w-24" />
-      <div className="hero-float-shape absolute right-[8%] top-[30%] h-12 w-12 rotate-45 bg-red/20 md:h-20 md:w-20" />
-      <div className="hero-float-shape absolute bottom-[25%] left-[15%] h-8 w-8 rounded-full border-4 border-yellow md:h-12 md:w-12" />
-      <div className="hero-float-shape absolute bottom-[30%] right-[12%] h-20 w-20 rounded-full bg-red/10 md:h-32 md:w-32" />
+      <div className="absolute inset-x-0 top-0 h-3 bg-red" />
+      <div className="hero-float-shape absolute -right-24 top-28 h-64 w-64 rounded-full bg-yellow opacity-80 md:h-96 md:w-96" />
+      <div className="hero-float-shape absolute -left-24 bottom-12 h-48 w-48 rounded-full bg-red opacity-10 md:h-72 md:w-72" />
+      <div className="travel-path hero-float-shape absolute right-[6%] top-[25%] hidden h-3 w-[34vw] rotate-[38deg] md:block" />
+      <div className="travel-path hero-float-shape absolute bottom-[15%] left-[8%] hidden h-3 w-[40vw] -rotate-[8deg] md:block" />
 
-      {/* Layered background typography */}
-      <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-        <span className="hero-bg-text display-text absolute text-[18vw] text-charcoal/[0.04] md:text-[22vw]">
-          FLAME
-        </span>
-        <span className="hero-bg-text display-text absolute translate-y-[15vh] text-[14vw] text-stroke md:text-[18vw]">
-          GRILLED
-        </span>
-      </div>
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center">
+        <Sticker color="red" rotate={-5} delay={0.15} className="hero-sticker mb-4">
+          Top Classic
+        </Sticker>
 
-      {/* Main headline composition */}
-      <div className="relative z-10 flex w-full max-w-7xl flex-col items-center">
-        <div className="relative flex w-full items-center justify-center">
-          <motion.h1
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="display-text absolute left-0 top-1/2 hidden -translate-y-1/2 text-[12vw] text-charcoal lg:block lg:text-[10vw]"
-          >
-            THE
-          </motion.h1>
+        <motion.h1
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="hero-bg-text display-text crav-text max-w-6xl text-center text-[16vw] leading-[0.78] sm:text-[14vw] lg:text-[9.6rem]"
+        >
+          Juicy Cheesy
+          <br />
+          Fully Loaded
+        </motion.h1>
 
-          {/* Floating burger */}
-          <motion.div
-            ref={burgerRef}
-            className="hero-burger relative z-20"
-            style={
-              isMobile
-                ? {}
-                : {
-                    rotateX,
-                    rotateY,
-                    x: translateX,
-                    y: translateY,
-                    transformPerspective: 1000,
-                  }
-            }
-          >
-            <div className="relative h-[45vw] w-[45vw] max-h-[420px] max-w-[420px] md:h-[38vw] md:w-[38vw]">
-              <div className="absolute inset-0 rounded-full bg-yellow/20 blur-3xl" />
-              <Image
-                src="https://images.unsplash.com/photo-1568901347635-c89a5c4a0a42?w=800&q=90&auto=format&fit=crop"
-                alt="Premium flame-grilled burger"
-                fill
-                className="object-contain drop-shadow-2xl"
-                priority
-                sizes="(max-width: 768px) 45vw, 420px"
-              />
-            </div>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="display-text absolute right-0 top-1/2 hidden -translate-y-1/2 text-[12vw] text-red lg:block lg:text-[10vw]"
-          >
-            BUN
-          </motion.h1>
-        </div>
-
-        {/* Mobile headline */}
-        <h1 className="display-text mt-6 text-center text-[14vw] leading-none text-charcoal sm:text-[12vw] lg:hidden">
-          THE<span className="text-red"> BUN</span>
-        </h1>
-
-        {/* Stickers */}
-        <div className="hero-sticker absolute left-[8%] top-[18%] hidden md:block">
-          <Sticker color="yellow" rotate={-8} delay={0.2}>
-            🔥 Flame Grilled
-          </Sticker>
-        </div>
-        <div className="hero-sticker absolute right-[6%] top-[22%] hidden md:block">
-          <Sticker color="red" rotate={12} delay={0.35}>
-            Since 2019
-          </Sticker>
-        </div>
-        <div className="hero-sticker absolute bottom-[22%] left-[10%] hidden lg:block">
-          <Sticker color="charcoal" rotate={-15} delay={0.5}>
-            ★ Award Winning
-          </Sticker>
-        </div>
-        <div className="hero-sticker absolute bottom-[20%] right-[8%] hidden lg:block">
-          <Sticker color="yellow" rotate={8} delay={0.65}>
-            Fresh Daily
-          </Sticker>
-        </div>
-      </div>
-
-      {/* Subtitle & CTA */}
-      <div className="relative z-10 mt-8 flex flex-col items-center gap-6 text-center md:mt-4">
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.8 }}
-          className="max-w-md text-sm leading-relaxed text-charcoal/70 md:text-base"
+          transition={{ delay: 0.8, duration: 0.8 }}
+          className="mt-8 max-w-3xl text-center text-base font-black uppercase leading-snug text-charcoal md:text-2xl"
         >
-          Premium flame-grilled burgers crafted with passion.
-          <br className="hidden sm:block" />
-          An experience beyond the ordinary bite.
+          CRAV is back and bolder than ever. Smashed hot, sauced loud, and
+          stacked for the ultimate bite.
         </motion.p>
 
-        <div className="hero-cta">
-          <MagneticButton href="#showcase" variant="primary">
-            Explore Menu →
+        <div className="hero-cta mt-8">
+          <MagneticButton href="#featured" variant="primary">
+            Order Now
           </MagneticButton>
         </div>
+      </div>
+
+      <motion.div
+        ref={burgerRef}
+        className="hero-burger chunky-card absolute -bottom-8 right-[4%] z-20 hidden aspect-[4/3] w-[24vw] max-w-[360px] rotate-6 overflow-hidden rounded-[1.6rem] bg-cream md:block"
+        style={
+          isMobile
+            ? {}
+            : {
+                rotateX,
+                rotateY,
+                x: translateX,
+                y: translateY,
+                transformPerspective: 1000,
+              }
+        }
+      >
+        <Image
+          src="/assets/crav-burger.png"
+          alt="Fully loaded cheeseburger"
+          fill
+          className="object-cover"
+          priority
+          sizes="360px"
+        />
+      </motion.div>
+
+      <div className="hero-sticker chunky-card absolute -bottom-10 left-[8%] z-20 hidden aspect-[4/3] w-[26vw] max-w-[390px] -rotate-3 overflow-hidden rounded-[1.6rem] bg-cream md:block">
+        <Image
+          src="/assets/crav-bite.png"
+          alt="Burger served hot"
+          fill
+          className="object-cover"
+          priority
+          sizes="390px"
+        />
+      </div>
+
+      <div className="hero-sticker absolute left-[6%] top-[26%] hidden lg:block">
+        <Sticker color="yellow" rotate={-10} delay={0.35}>
+          Smashed Patties
+        </Sticker>
+      </div>
+      <div className="hero-sticker absolute right-[8%] top-[24%] hidden lg:block">
+        <Sticker color="red" rotate={9} delay={0.5}>
+          Est. 2010
+        </Sticker>
+      </div>
+      <div className="hero-sticker absolute right-[18%] bottom-[18%] hidden lg:block">
+        <Sticker color="charcoal" rotate={-12} delay={0.65}>
+          Toasted Buns
+        </Sticker>
       </div>
 
       {/* Scroll indicator */}

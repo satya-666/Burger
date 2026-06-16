@@ -33,10 +33,10 @@ export default function MagneticButton({
   const handleMouseLeave = () => setPosition({ x: 0, y: 0 });
 
   const variants = {
-    primary: "bg-red text-white hover:bg-red-dark shadow-lg shadow-red/25",
-    secondary: "bg-yellow text-charcoal hover:bg-yellow-warm",
+    primary: "bg-red text-white hover:bg-red-dark shadow-lg shadow-red/25 ring-4 ring-cream",
+    secondary: "bg-yellow text-charcoal hover:bg-yellow-warm ring-4 ring-cream",
     outline:
-      "border-2 border-charcoal bg-transparent text-charcoal hover:bg-charcoal hover:text-beige",
+      "border-2 border-charcoal bg-cream text-charcoal hover:bg-charcoal hover:text-beige",
   };
 
   const inner = (
@@ -49,7 +49,7 @@ export default function MagneticButton({
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       className={clsx(
-        "relative inline-flex cursor-none items-center justify-center gap-2 overflow-hidden rounded-full px-8 py-4 text-sm font-semibold uppercase tracking-widest transition-colors duration-300 md:px-10 md:py-5 md:text-base",
+        "display-text relative inline-flex cursor-none items-center justify-center gap-2 overflow-hidden rounded-[999px/70%] px-8 py-4 text-sm uppercase transition-colors duration-300 md:px-10 md:py-5 md:text-base",
         variants[variant],
         className
       )}

@@ -68,16 +68,19 @@ export default function BrandStory() {
       ref={sectionRef}
       className="relative overflow-hidden bg-beige py-20 md:py-32"
     >
-      <span className="story-big-text display-text pointer-events-none absolute -right-[5%] top-[10%] select-none text-[20vw] text-charcoal/[0.03]">
-        STORY
+      <span className="story-big-text display-text crav-text pointer-events-none absolute -bottom-8 left-1/2 select-none text-[32vw] leading-none -translate-x-1/2 opacity-95">
+        CRAV
+      </span>
+      <span className="sticker-outline display-text absolute right-[22%] top-[15%] rotate-[-12deg] rounded-full bg-yellow px-5 py-3 text-3xl text-charcoal">
+        Cheese
       </span>
 
       <div className="mx-auto max-w-7xl px-5 md:px-8 lg:px-12">
         <div className="story-content grid items-center gap-16 lg:grid-cols-2 lg:gap-24">
-          <div className="story-image-wrap relative aspect-[3/4] overflow-hidden rounded-[2rem] md:rounded-[3rem]">
+          <div className="story-image-wrap chunky-card relative aspect-[3/4] rotate-2 overflow-hidden rounded-[1.6rem] bg-cream">
             <div className="story-parallax-img relative h-[120%] w-full -translate-y-[10%]">
               <Image
-                src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80&auto=format&fit=crop"
+                src="/assets/crav-counter.png"
                 alt="Chef preparing burgers"
                 fill
                 className="object-cover"
@@ -88,48 +91,47 @@ export default function BrandStory() {
             <div className="absolute inset-0 bg-gradient-to-t from-charcoal/30 to-transparent" />
 
             <div className="absolute bottom-8 left-8 right-8">
-              <span className="inline-block rounded-full bg-yellow px-4 py-2 text-xs font-bold uppercase tracking-wider text-charcoal">
-                Est. 2019
+              <span className="display-text sticker-outline inline-block rounded-full bg-yellow px-5 py-2 text-xl uppercase text-charcoal">
+                Est. 2010
               </span>
             </div>
           </div>
 
-          <div>
-            <span className="story-text-block mb-4 inline-block text-xs font-semibold uppercase tracking-[0.3em] text-red">
+          <div className="relative z-10">
+            <span className="story-text-block sticker-outline display-text mb-5 inline-block rotate-[-4deg] rounded-full bg-red px-5 py-2 text-2xl text-cream">
               Our Story
             </span>
 
             <TextReveal
               as="h2"
-              className="story-text-block display-text mb-8 text-5xl text-charcoal md:text-6xl lg:text-7xl"
+              className="story-text-block display-text mb-8 text-6xl text-charcoal md:text-7xl lg:text-8xl"
             >
-              Born From Fire Passion
+              Smashed Patties. Toasted Buns.
             </TextReveal>
 
-            <p className="story-text-block mb-6 leading-relaxed text-charcoal/70 md:text-lg">
+            <p className="story-text-block mb-6 text-lg font-bold leading-relaxed text-charcoal/75 md:text-xl">
               It started with a simple belief: a burger should be an event, not
-              just a meal. In a small kitchen with a open flame and big dreams,
-              FLAME&BUN was born — a place where craftsmanship meets craving.
+              just a meal. In a small kitchen with a hot flat-top and louder
+              dreams, CRAV became the place where craft meets craving.
             </p>
 
-            <p className="story-text-block mb-10 leading-relaxed text-charcoal/70 md:text-lg">
-              Today, we source the finest ingredients from local farms, grind
-              our beef fresh every morning, and grill each patty over real flame.
-              Every bite is a testament to our obsession with quality.
+            <p className="story-text-block mb-10 text-lg font-bold leading-relaxed text-charcoal/75 md:text-xl">
+              We keep the menu short, the sauces punchy, and every order wrapped
+              like a sticker-covered souvenir.
             </p>
 
             <div className="story-text-block grid grid-cols-2 gap-6 md:gap-8">
               {[
                 { num: "50K+", label: "Happy Customers" },
-                { num: "12", label: "Locations" },
+                { num: "8", label: "NCR Spots" },
                 { num: "15", label: "Awards Won" },
                 { num: "100%", label: "Love & Fire" },
               ].map((item) => (
                 <div key={item.label}>
-                  <span className="display-text block text-3xl text-red md:text-4xl">
+                  <span className="display-text crav-text block text-4xl md:text-5xl">
                     {item.num}
                   </span>
-                  <span className="text-sm text-charcoal/50">{item.label}</span>
+                  <span className="text-sm font-black uppercase text-charcoal/60">{item.label}</span>
                 </div>
               ))}
             </div>

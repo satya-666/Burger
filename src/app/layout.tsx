@@ -16,9 +16,9 @@ const body = DM_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "FLAME&BUN — Premium Flame-Grilled Burgers",
+  title: "CRAV — Juicy Cheesy Fully Loaded Burgers",
   description:
-    "Award-winning premium burger restaurant. Flame-grilled perfection, artisan ingredients, unforgettable experience.",
+    "Bold smashed burgers, toasted buns, punchy sauces, and CRAV-worthy take-away energy.",
 };
 
 export default function RootLayout({

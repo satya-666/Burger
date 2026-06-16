@@ -15,21 +15,21 @@ const EXPERIENCES = [
     description:
       "Industrial-chic interiors with warm lighting and the sizzle of open flames.",
     image:
-      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80&auto=format&fit=crop",
+      "/assets/crav-burger.png",
   },
   {
     title: "Craft Cocktails",
     description:
       "House-made beverages designed to complement every bite of your burger.",
     image:
-      "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80&auto=format&fit=crop",
+      "/assets/crav-bite.png",
   },
   {
     title: "Live Music",
     description:
       "Local artists every Friday and Saturday — good food, great vibes.",
     image:
-      "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=600&q=80&auto=format&fit=crop",
+      "/assets/crav-counter.png",
   },
 ];
 

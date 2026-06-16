@@ -6,71 +6,61 @@ import { NAV_LINKS } from "@/lib/constants";
 const SOCIAL = [
   { label: "Instagram", href: "#" },
   { label: "Twitter", href: "#" },
-  { label: "TikTok", href: "#" },
+  { label: "Facebook", href: "#" },
 ];
 
 export default function Footer() {
   return (
-    <footer className="bg-charcoal py-16 text-beige md:py-20">
+    <footer className="relative overflow-hidden bg-beige py-16 text-charcoal md:py-20">
       <div className="mx-auto max-w-7xl px-5 md:px-8 lg:px-12">
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
-          <div className="lg:col-span-2">
-            <a href="#" className="display-text inline-block text-3xl md:text-4xl" data-cursor="hover">
-              FLAME<span className="text-red">&</span>BUN
-            </a>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-beige/50">
-              Premium flame-grilled burgers crafted with passion. An award-winning
-              experience in every bite.
-            </p>
-          </div>
+        <div className="flex flex-col justify-between gap-8 border-b-2 border-charcoal/20 pb-10 md:flex-row md:items-end">
+          <nav className="flex flex-wrap gap-7 md:gap-10">
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="display-text text-3xl transition-colors hover:text-red"
+                data-cursor="hover"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
 
-          <div>
-            <h4 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-beige/40">
-              Navigate
-            </h4>
-            <ul className="space-y-3">
-              {NAV_LINKS.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="text-sm text-beige/70 transition-colors hover:text-yellow"
-                    data-cursor="hover"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-beige/40">
-              Connect
-            </h4>
-            <ul className="space-y-3">
-              {SOCIAL.map((s) => (
-                <li key={s.label}>
-                  <motion.a
-                    href={s.href}
-                    className="text-sm text-beige/70 transition-colors hover:text-yellow"
-                    whileHover={{ x: 4 }}
-                    data-cursor="hover"
-                  >
-                    {s.label}
-                  </motion.a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <p className="display-text text-2xl text-charcoal/80">
+            © {new Date().getFullYear()} CRAV — All Rights Reserved
+          </p>
         </div>
 
-        <div className="mt-16 flex flex-col items-center justify-between gap-4 border-t border-beige/10 pt-8 md:flex-row">
-          <p className="text-xs text-beige/30">
-            © {new Date().getFullYear()} FLAME&BUN. All rights reserved.
+        <div className="relative min-h-[330px] pt-8 md:min-h-[430px]">
+          <p className="display-text text-3xl text-charcoal/80">
+            Smashed Patties · Toasted Buns · Est. 2010
           </p>
-          <p className="text-xs text-beige/30">
-            Crafted with fire & passion
-          </p>
+
+          <div className="sticker-outline absolute right-[36%] top-20 hidden rotate-[-12deg] rounded-full bg-yellow px-5 py-3 display-text text-3xl md:block">
+            Cheese
+          </div>
+          <div className="sticker-outline absolute right-[14%] top-48 hidden rotate-12 rounded-full bg-red px-5 py-3 display-text text-3xl text-cream md:block">
+            Sauce
+          </div>
+
+          <span className="display-text crav-text absolute -bottom-[0.2em] left-1/2 -translate-x-1/2 text-[33vw] leading-none">
+            CRAV
+          </span>
+
+          <div className="absolute bottom-4 left-0 right-0 flex flex-wrap justify-center gap-5">
+            {SOCIAL.map((s) => (
+              <motion.a
+                key={s.label}
+                href={s.href}
+                className="display-text rounded-full bg-cream px-5 py-2 text-xl ring-2 ring-charcoal/15 transition-colors hover:bg-yellow"
+                whileHover={{ y: -4 }}
+                data-cursor="hover"
+              >
+                {s.label}
+              </motion.a>
+            ))}
+          </div>
         </div>
       </div>
     </footer>

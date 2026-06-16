@@ -51,20 +51,20 @@ export default function FeaturedBurgers() {
       <section
         id="featured"
         ref={sectionRef}
-        className="relative overflow-hidden bg-charcoal py-20 text-beige md:py-32"
+        className="relative overflow-hidden bg-red py-20 text-cream md:py-32"
       >
-        <div className="noise-bg absolute inset-0 opacity-50" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_12%,rgba(255,211,63,0.28),transparent_28%),radial-gradient(circle_at_88%_78%,rgba(255,244,223,0.18),transparent_30%)]" />
 
         <div className="relative mx-auto max-w-7xl px-5 md:px-8 lg:px-12">
           <div className="burgers-heading mb-16 text-center md:mb-24">
-            <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.3em] text-yellow">
+            <span className="sticker-outline mb-4 inline-block rotate-[-3deg] rounded-full bg-yellow px-5 py-2 display-text text-2xl text-charcoal">
               Signature Menu
             </span>
             <TextReveal
               as="h2"
-              className="display-text text-5xl text-beige md:text-7xl lg:text-8xl"
+              className="display-text text-6xl text-cream md:text-8xl lg:text-[9rem]"
             >
-              Featured Burgers
+              Burgers Built Loud
             </TextReveal>
           </div>
 
@@ -72,7 +72,7 @@ export default function FeaturedBurgers() {
             {BURGERS.map((burger, index) => (
               <motion.article
                 key={burger.id}
-                className="burger-card group relative overflow-hidden rounded-[2rem] bg-beige/5 backdrop-blur-sm"
+                className="burger-card chunky-card group relative overflow-hidden rounded-[1.6rem] bg-cream text-charcoal"
                 whileHover={{ y: -8 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 data-cursor="hover"
@@ -88,30 +88,30 @@ export default function FeaturedBurgers() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-transparent to-transparent" />
 
-                  <span className="absolute left-6 top-6 rounded-full bg-red px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
+                  <span className="display-text sticker-outline absolute left-6 top-6 rotate-[-5deg] rounded-full bg-red px-4 py-2 text-xl text-white">
                     {burger.tag}
                   </span>
 
-                  <span className="display-text absolute bottom-4 right-6 text-5xl text-beige/10 md:text-6xl">
+                  <span className="display-text crav-text absolute bottom-4 right-6 text-5xl md:text-6xl">
                     0{index + 1}
                   </span>
                 </div>
 
                 <div className="p-6 md:p-8">
                   <div className="mb-3 flex items-start justify-between gap-4">
-                    <h3 className="display-text text-2xl text-beige md:text-3xl">
+                    <h3 className="display-text text-3xl text-charcoal md:text-4xl">
                       {burger.name}
                     </h3>
-                    <span className="display-text shrink-0 text-2xl text-yellow md:text-3xl">
+                    <span className="display-text shrink-0 text-3xl text-red md:text-4xl">
                       {burger.price}
                     </span>
                   </div>
-                  <p className="text-sm leading-relaxed text-beige/60 md:text-base">
+                  <p className="text-sm font-bold leading-relaxed text-charcoal/65 md:text-base">
                     {burger.description}
                   </p>
 
                   <motion.button
-                    className="mt-6 flex items-center gap-2 text-sm font-semibold uppercase tracking-wider text-yellow"
+                    className="display-text mt-6 flex items-center gap-2 rounded-full bg-yellow px-5 py-3 text-base text-charcoal ring-4 ring-charcoal/10"
                     whileHover={{ x: 5 }}
                     data-cursor="hover"
                   >

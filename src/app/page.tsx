@@ -6,6 +6,7 @@ import FeaturedBurgers from "@/components/sections/FeaturedBurgers";
 import CustomerExperience from "@/components/sections/CustomerExperience";
 import CallToAction from "@/components/sections/CallToAction";
 import Footer from "@/components/sections/Footer";
+import CookieBanner from "@/components/ui/CookieBanner";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       <CustomerExperience />
       <CallToAction />
       <Footer />
+      <CookieBanner />
     </main>
   );
 }

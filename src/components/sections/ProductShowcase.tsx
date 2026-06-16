@@ -68,31 +68,33 @@ export default function ProductShowcase() {
 
   return (
     <>
-      <MarqueeBanner className="border-y border-charcoal/5 bg-cream" />
+      <MarqueeBanner className="border-y-4 border-charcoal bg-red text-cream [&_.display-text]:!text-cream" />
       <section
         id="showcase"
         ref={sectionRef}
-        className="relative overflow-hidden bg-cream py-20 md:py-32"
+        className="relative overflow-hidden bg-yellow py-20 md:py-32"
       >
+        <div className="travel-path showcase-parallax absolute right-[2%] top-[18%] hidden h-4 w-[56vw] rotate-[38deg] md:block" />
+        <div className="absolute -top-24 left-1/2 h-48 w-96 -translate-x-1/2 rounded-b-full bg-beige" />
         <div className="mx-auto max-w-7xl px-5 md:px-8 lg:px-12">
           <div className="mb-16 md:mb-24">
-            <span className="mb-4 inline-block text-xs font-semibold uppercase tracking-[0.3em] text-red">
-              Our Craft
+            <span className="sticker-outline display-text mb-5 inline-block rotate-[-4deg] rounded-full bg-red px-5 py-2 text-2xl text-cream">
+              Take Away
             </span>
             <TextReveal
               as="h2"
-              className="display-text max-w-4xl text-5xl text-charcoal md:text-7xl lg:text-8xl"
+              className="display-text crav-text-white max-w-6xl text-6xl md:text-8xl lg:text-[9rem]"
             >
-              Every Layer Tells a Story
+              Quality That Travels With You
             </TextReveal>
           </div>
 
           <div className="showcase-grid grid items-center gap-12 lg:grid-cols-2 lg:gap-20">
             <div className="showcase-sticky relative">
-              <div className="showcase-image showcase-parallax relative aspect-[4/5] overflow-hidden rounded-[2rem] md:rounded-[3rem]">
+              <div className="showcase-image showcase-parallax chunky-card relative aspect-[4/5] -rotate-3 overflow-hidden rounded-[1.6rem] bg-cream">
                 <div className="showcase-zoom relative h-full w-full">
                   <Image
-                    src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=900&q=80&auto=format&fit=crop"
+                    src="/assets/crav-burger.png"
                     alt="Premium burger layers"
                     fill
                     className="object-cover"
@@ -100,63 +102,62 @@ export default function ProductShowcase() {
                     loading="lazy"
                   />
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/40 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-charcoal/30 to-transparent" />
                 <div className="absolute bottom-8 left-8">
-                  <span className="display-text text-6xl text-white/90 md:text-8xl">01</span>
+                  <span className="display-text crav-text text-6xl md:text-8xl">01</span>
                 </div>
               </div>
 
-              <div className="absolute -right-4 -top-4 h-24 w-24 rounded-full bg-yellow md:-right-8 md:-top-8 md:h-32 md:w-32" />
+              <div className="sticker-outline display-text absolute -right-4 -top-4 rotate-12 rounded-full bg-red px-5 py-3 text-2xl text-cream md:-right-8 md:-top-8">
+                Hauz Khas
+              </div>
             </div>
 
             <div className="flex flex-col gap-10">
               <div className="showcase-detail">
-                <h3 className="display-text mb-4 text-3xl text-charcoal md:text-4xl">
-                  Prime Angus Beef
+                <h3 className="display-text mb-4 text-4xl text-charcoal md:text-5xl">
+                  Smashed Hot
                 </h3>
-                <p className="leading-relaxed text-charcoal/70">
-                  Hand-selected cuts, ground fresh daily and flame-grilled to
-                  perfection. Each patty delivers a juicy, smoky char that
-                  defines our signature taste.
+                <p className="text-lg font-bold leading-relaxed text-charcoal/80">
+                  Freshly packed smash burgers, sealed while the cheese is still
+                  glossy and the sauce is still loud.
                 </p>
               </div>
 
               <div className="showcase-detail">
-                <h3 className="display-text mb-4 text-3xl text-charcoal md:text-4xl">
-                  Artisan Brioche
+                <h3 className="display-text mb-4 text-4xl text-charcoal md:text-5xl">
+                  Toasted Buns
                 </h3>
-                <p className="leading-relaxed text-charcoal/70">
-                  Baked in-house every morning. Soft, buttery, and lightly
-                  toasted — the perfect vessel for our bold flavors and
-                  textures.
+                <p className="text-lg font-bold leading-relaxed text-charcoal/80">
+                  Soft potato rolls hit the grill just long enough to hold the
+                  stack together from counter to couch.
                 </p>
               </div>
 
               <div className="showcase-detail">
-                <h3 className="display-text mb-4 text-3xl text-charcoal md:text-4xl">
-                  Secret Sauce
+                <h3 className="display-text mb-4 text-4xl text-charcoal md:text-5xl">
+                  Pocket Sauces
                 </h3>
-                <p className="leading-relaxed text-charcoal/70">
-                  A closely guarded recipe passed down through generations.
-                  Tangy, creamy, and impossibly addictive — it ties every
-                  element together.
+                <p className="text-lg font-bold leading-relaxed text-charcoal/80">
+                  Tangy, spicy, creamy, and packed on the side so every bite can
+                  get fully loaded.
                 </p>
               </div>
 
               <div className="showcase-detail grid grid-cols-3 gap-4 pt-4">
                 {[
                   { value: "100%", label: "Fresh" },
-                  { value: "48hr", label: "Aged Beef" },
+                  { value: "48hr", label: "Fresh Chicken" },
                   { value: "0", label: "Preservatives" },
                 ].map((stat) => (
                   <div
                     key={stat.label}
-                    className="rounded-2xl bg-beige p-4 text-center md:p-6"
+                    className="chunky-card rounded-[1.4rem] bg-cream p-4 text-center md:p-6"
                   >
                     <span className="display-text block text-2xl text-red md:text-3xl">
                       {stat.value}
                     </span>
-                    <span className="text-xs uppercase tracking-wider text-charcoal/50">
+                    <span className="text-xs font-black uppercase text-charcoal/60">
                       {stat.label}
                     </span>
                   </div>
@@ -168,17 +169,17 @@ export default function ProductShowcase() {
           <div className="mt-20 grid gap-6 md:grid-cols-3 md:gap-8">
             {[
               {
-                src: "https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=600&q=80&auto=format&fit=crop",
+                src: "/assets/crav-burger.png",
                 alt: "Fresh ingredients",
                 label: "Farm Fresh",
               },
               {
-                src: "https://images.unsplash.com/photo-1606755962773-d324ed7a9848?w=600&q=80&auto=format&fit=crop",
+                src: "/assets/crav-bite.png",
                 alt: "Grilling process",
                 label: "Open Flame",
               },
               {
-                src: "https://images.unsplash.com/photo-1565299585323-38a6c066fd0f?w=600&q=80&auto=format&fit=crop",
+                src: "/assets/crav-counter.png",
                 alt: "Finished burger",
                 label: "Perfection",
               },
@@ -189,7 +190,7 @@ export default function ProductShowcase() {
                   alt={item.alt}
                   className="aspect-square"
                 />
-                <span className="display-text absolute bottom-6 left-6 text-xl text-white drop-shadow-lg md:text-2xl">
+                <span className="display-text crav-text absolute bottom-6 left-6 text-3xl md:text-4xl">
                   {item.label}
                 </span>
               </div>
