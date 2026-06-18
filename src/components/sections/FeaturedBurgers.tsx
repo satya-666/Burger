@@ -8,11 +8,13 @@ import { motion } from "framer-motion";
 import TextReveal from "@/components/ui/TextReveal";
 import SectionDivider from "@/components/ui/SectionDivider";
 import { BURGERS } from "@/lib/constants";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function FeaturedBurgers() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { requireAuth } = useAuth();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -111,6 +113,8 @@ export default function FeaturedBurgers() {
                   </p>
 
                   <motion.button
+                    type="button"
+                    onClick={() => requireAuth(`add ${burger.name} to order`)}
                     className="display-text mt-6 flex items-center gap-2 rounded-full bg-yellow px-5 py-3 text-base text-charcoal ring-4 ring-charcoal/10"
                     whileHover={{ x: 5 }}
                     data-cursor="hover"

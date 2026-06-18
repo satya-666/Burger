@@ -7,7 +7,9 @@ import clsx from "clsx";
 interface MagneticButtonProps {
   children: React.ReactNode;
   className?: string;
-  onClick?: () => void;
+  onClick?: (
+    event: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>
+  ) => void;
   href?: string;
   variant?: "primary" | "secondary" | "outline";
 }
@@ -73,5 +75,9 @@ export default function MagneticButton({
     );
   }
 
-  return <button onClick={onClick}>{inner}</button>;
+  return (
+    <button type="button" onClick={onClick}>
+      {inner}
+    </button>
+  );
 }

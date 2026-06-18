@@ -8,6 +8,7 @@ import Sticker from "@/components/ui/Sticker";
 import MagneticButton from "@/components/ui/MagneticButton";
 import { useMousePosition } from "@/hooks/useMousePosition";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -22,6 +23,7 @@ export default function Hero() {
   const rotateY = useSpring(useTransform(mouseX, [-300, 300], [-8, 8]), springConfig);
   const translateX = useSpring(useTransform(mouseX, [-300, 300], [-20, 20]), springConfig);
   const translateY = useSpring(useTransform(mouseY, [-300, 300], [-15, 15]), springConfig);
+  const { requireAuth } = useAuth();
 
   useEffect(() => {
     if (isMobile) return;
@@ -127,7 +129,15 @@ export default function Hero() {
         </motion.p>
 
         <div className="hero-cta mt-8">
-          <MagneticButton href="#featured" variant="primary">
+          <MagneticButton
+            href="#featured"
+            variant="primary"
+            onClick={(event) => {
+              if (!requireAuth("order")) {
+                event.preventDefault();
+              }
+            }}
+          >
             Order Now
           </MagneticButton>
         </div>

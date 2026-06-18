@@ -5,11 +5,13 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import MagneticButton from "@/components/ui/MagneticButton";
 import MarqueeBanner from "@/components/ui/MarqueeBanner";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function CallToAction() {
   const sectionRef = useRef<HTMLElement>(null);
+  const { requireAuth } = useAuth();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -78,8 +80,17 @@ export default function CallToAction() {
         </p>
 
         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <MagneticButton variant="secondary">Order Online</MagneticButton>
-          <MagneticButton variant="outline" className="!border-cream !text-charcoal hover:!bg-charcoal hover:!text-cream">
+          <MagneticButton
+            variant="secondary"
+            onClick={() => requireAuth("order online")}
+          >
+            Order Online
+          </MagneticButton>
+          <MagneticButton
+            variant="outline"
+            className="!border-cream !text-charcoal hover:!bg-charcoal hover:!text-cream"
+            onClick={() => requireAuth("book a table")}
+          >
             Book a Table
           </MagneticButton>
         </div>

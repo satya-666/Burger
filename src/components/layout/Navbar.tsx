@@ -4,10 +4,12 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { NAV_LINKS } from "@/lib/constants";
 import MagneticButton from "@/components/ui/MagneticButton";
+import { useAuth } from "@/components/auth/AuthProvider";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { isAuthenticated, requireAuth, user, logout } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -57,10 +59,28 @@ export default function Navbar() {
             ))}
           </nav>
 
-          <div className="hidden lg:block">
-            <MagneticButton href="#cta" variant="primary">
-              Order Now
+          <div className="hidden items-center gap-4 lg:flex">
+            <MagneticButton
+              href="#cta"
+              variant="primary"
+              onClick={(event) => {
+                if (!requireAuth("order")) {
+                  event.preventDefault();
+                }
+              }}
+            >
+              {isAuthenticated ? `Hi ${user?.name || "Foodie"}` : "Order Now"}
             </MagneticButton>
+            {isAuthenticated && (
+              <button
+                type="button"
+                onClick={() => logout()}
+                className="display-text rounded-full border-2 border-charcoal bg-cream px-5 py-3 text-base text-charcoal transition-colors hover:bg-yellow"
+                data-cursor="hover"
+              >
+                Logout
+              </button>
+            )}
           </div>
 
           <button
@@ -112,10 +132,30 @@ export default function Navbar() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
               >
-                <MagneticButton href="#cta" onClick={() => setMenuOpen(false)}>
-                  Order Now
+                <MagneticButton
+                  href="#cta"
+                  onClick={(event) => {
+                    if (!requireAuth("order")) {
+                      event.preventDefault();
+                    }
+                    setMenuOpen(false);
+                  }}
+                >
+                  {isAuthenticated ? "My Account" : "Order Now"}
                 </MagneticButton>
               </motion.div>
+              {isAuthenticated && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    logout();
+                    setMenuOpen(false);
+                  }}
+                  className="display-text text-3xl text-charcoal/70"
+                >
+                  Logout
+                </button>
+              )}
             </nav>
           </motion.div>
         )}
