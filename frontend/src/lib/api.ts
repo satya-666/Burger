@@ -41,7 +41,18 @@ export async function apiRequest<T>(
     ...options,
     headers,
   });
-  const payload = (await response.json()) as ApiResponse<T>;
+  const rawBody = await response.text();
+  let payload: ApiResponse<T>;
+
+  try {
+    payload = JSON.parse(rawBody) as ApiResponse<T>;
+  } catch {
+    throw new Error(
+      response.ok
+        ? "API returned an invalid response."
+        : "Backend API is not reachable. Please check the backend deployment URL."
+    );
+  }
 
   if (!response.ok) {
     throw new Error(payload.message || "Request failed.");
