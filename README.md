@@ -35,3 +35,19 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 # Burger
+
+## Environment
+
+Create `.env.local` from `.env.example` for local frontend configuration.
+
+```bash
+cp .env.example .env.local
+```
+
+For Vercel, set `BACKEND_API_URL` to the deployed backend API base URL, for example:
+
+```env
+BACKEND_API_URL=https://your-render-service.onrender.com/api
+```
+
+The frontend calls `/api/...` by default, and Next.js proxies those requests to `BACKEND_API_URL`. This avoids browser CORS errors.

@@ -45,7 +45,7 @@ Update `.env` with your MongoDB and OTP provider credentials.
 | --- | --- | --- |
 | `NODE_ENV` | No | `development` or `production`. |
 | `PORT` | No | API port. Defaults to `5000`. |
-| `CORS_ORIGIN` | Yes | Comma-separated frontend origins, for example `http://localhost:3000`. |
+| `CORS_ORIGIN` | Yes | Comma-separated frontend origins, for example `http://localhost:3000,https://burger-mu-sooty.vercel.app`. |
 | `MONGODB_URI` | Yes | MongoDB connection string. MongoDB Atlas is recommended for deployment. |
 | `DB_CONNECTION_TIMEOUT_MS` | No | MongoDB connection timeout. Defaults to `10000`. |
 | `JWT_SECRET` | Yes | Long random string used to sign JWTs. |
@@ -297,14 +297,16 @@ This creates or updates a verified demo user with mobile number `+919999999999`.
 3. Set build command to `npm install`.
 4. Set start command to `npm start`.
 5. Add all environment variables from `.env.example`.
-6. Deploy and copy the generated Render URL into this README.
+6. Set `CORS_ORIGIN` to the deployed frontend origin, for example `https://burger-mu-sooty.vercel.app`.
+7. Deploy and copy the generated Render URL into this README.
 
 ### Railway
 
 1. Create a new Railway service from the repository.
 2. Set the service root to `backend`.
 3. Add all environment variables from `.env.example`.
-4. Deploy and copy the generated Railway URL into this README.
+4. Set `CORS_ORIGIN` to the deployed frontend origin, for example `https://burger-mu-sooty.vercel.app`.
+5. Deploy and copy the generated Railway URL into this README.
 
 ## Production Notes
 
