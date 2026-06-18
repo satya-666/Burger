@@ -4,11 +4,11 @@ Express.js backend for the Burger app. It provides OTP-based mobile authenticati
 
 ## Hosted Backend URL
 
-Not deployed yet. Deployment to Render/Railway and MongoDB Atlas requires project owner credentials and platform access.
+Deployed alongside the frontend on Vercel as a monorepo service.
 
-- Backend live URL: `TBD`
-- API base URL: `http://localhost:5000/api` locally, hosted URL after deployment
-- Database hosting: MongoDB Atlas recommended
+- Backend route prefix: `/_/backend`
+- API base URL: `http://localhost:5000/api` locally, `/_/backend/api` on Vercel
+- Database hosting: MongoDB Atlas
 
 ## Folder Structure
 
@@ -283,30 +283,30 @@ This creates or updates a verified demo user with mobile number `+919999999999`.
 
 ## Deployment Details
 
-### MongoDB Atlas
+Deployed on Vercel as a monorepo service alongside the frontend.
 
-1. Create a MongoDB Atlas project and cluster.
-2. Create a database user.
-3. Add the Render/Railway outbound IP to Network Access, or temporarily allow access from anywhere for initial testing.
-4. Copy the connection string into `MONGODB_URI`.
+### Prerequisites
 
-### Render
+1. MongoDB Atlas cluster with a database user and network access configured.
+2. Vercel project connected to the GitHub repository.
 
-1. Create a new Web Service.
-2. Set root directory to `backend`.
-3. Set build command to `npm install`.
-4. Set start command to `npm start`.
-5. Add all environment variables from `.env.example`.
-6. Set `CORS_ORIGIN` to the deployed frontend origin, for example `https://burger-mu-sooty.vercel.app`.
-7. Deploy and copy the generated Render URL into this README.
+### Environment Variables (set in Vercel dashboard)
 
-### Railway
+For the **backend service**, add:
 
-1. Create a new Railway service from the repository.
-2. Set the service root to `backend`.
-3. Add all environment variables from `.env.example`.
-4. Set `CORS_ORIGIN` to the deployed frontend origin, for example `https://burger-mu-sooty.vercel.app`.
-5. Deploy and copy the generated Railway URL into this README.
+| Variable | Description |
+| --- | --- |
+| `MONGODB_URI` | MongoDB Atlas connection string |
+| `JWT_SECRET` | Long random string for signing JWTs |
+| `JWT_EXPIRES_IN` | `7d` |
+| `CORS_ORIGIN` | `https://burger-mu-sooty.vercel.app` |
+| `OTP_PROVIDER` | `mock` (or `twilio` if configured) |
+
+For the **frontend service**, add:
+
+| Variable | Description |
+| --- | --- |
+| `NEXT_PUBLIC_API_BASE_URL` | `/_/backend` |
 
 ## Production Notes
 

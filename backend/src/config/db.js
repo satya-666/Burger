@@ -1,7 +1,13 @@
 const mongoose = require("mongoose");
 const env = require("./env");
 
+let cachedConnection = null;
+
 const connectDB = async () => {
+  if (cachedConnection) {
+    return cachedConnection;
+  }
+
   mongoose.set("strictQuery", true);
 
   const connection = await mongoose.connect(env.mongoUri, {
@@ -9,6 +15,7 @@ const connectDB = async () => {
   });
   console.log(`MongoDB connected: ${connection.connection.host}`);
 
+  cachedConnection = connection;
   return connection;
 };
 
