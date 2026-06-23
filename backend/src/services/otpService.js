@@ -27,7 +27,7 @@ const sendMockOtp = async (mobileNumber) => {
 
   return {
     expiresInMinutes: env.otpExpiryMinutes,
-    devOtp: env.nodeEnv === "production" ? undefined : otp,
+    devOtp: otp,
   };
 };
 
