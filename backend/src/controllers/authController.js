@@ -1,127 +1,71 @@
 const asyncHandler = require("../utils/asyncHandler");
 const ApiError = require("../utils/ApiError");
 const { ok, created } = require("../utils/apiResponse");
-const otpService = require("../services/otpService");
 const tokenService = require("../services/tokenService");
 const User = require("../models/User");
-const admin = require("../config/firebase");
-const { normalizeMobileNumber, validateMobileNumber } = require("../utils/validators");
 
-const sendOtp = asyncHandler(async (req, res) => {
-  const mobileNumber = normalizeMobileNumber(req.body.mobileNumber);
+const signup = asyncHandler(async (req, res) => {
+  const { email, password, name } = req.body;
 
-  if (!validateMobileNumber(mobileNumber)) {
-    throw new ApiError(400, "Enter a valid mobile number in E.164 format, for example +919876543210.", "INVALID_MOBILE_NUMBER");
+  if (!email || !password) {
+    throw new ApiError(400, "Email and password are required.", "MISSING_CREDENTIALS");
   }
 
-  const result = await otpService.sendOtp(mobileNumber);
+  if (password.length < 6) {
+    throw new ApiError(400, "Password must be at least 6 characters.", "WEAK_PASSWORD");
+  }
 
-  return ok(res, "OTP sent successfully.", {
-    mobileNumber,
-    channel: "sms",
-    expiresInMinutes: result.expiresInMinutes,
-    ...(result.devOtp ? { devOtp: result.devOtp } : {}),
+  const existing = await User.findOne({ email: email.toLowerCase().trim() });
+  if (existing) {
+    throw new ApiError(409, "An account with this email already exists.", "EMAIL_EXISTS");
+  }
+
+  const now = new Date();
+  const user = await User.create({
+    name: name ? String(name).trim() : "",
+    email: email.toLowerCase().trim(),
+    password,
+    lastLogin: now,
+  });
+
+  const accessToken = tokenService.signAccessToken(user);
+
+  return created(res, "Account created successfully.", {
+    accessToken,
+    tokenType: "Bearer",
+    isNewUser: true,
+    user: user.toJSON(),
   });
 });
 
-const verifyOtp = asyncHandler(async (req, res) => {
-  const mobileNumber = normalizeMobileNumber(req.body.mobileNumber);
-  const otp = String(req.body.otp || "").trim();
+const login = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
 
-  if (!validateMobileNumber(mobileNumber)) {
-    throw new ApiError(400, "Enter a valid mobile number in E.164 format, for example +919876543210.", "INVALID_MOBILE_NUMBER");
+  if (!email || !password) {
+    throw new ApiError(400, "Email and password are required.", "MISSING_CREDENTIALS");
   }
 
-  if (!/^\d{4,8}$/.test(otp)) {
-    throw new ApiError(400, "Enter a valid OTP.", "INVALID_OTP");
-  }
-
-  const isOtpValid = await otpService.verifyOtp(mobileNumber, otp);
-
-  if (!isOtpValid) {
-    throw new ApiError(401, "OTP verification failed.", "OTP_VERIFICATION_FAILED");
-  }
-
-  const now = new Date();
-  let user = await User.findOne({ mobileNumber });
-  let isNewUser = false;
-
+  const user = await User.findOne({ email: email.toLowerCase().trim() });
   if (!user) {
-    user = await User.create({
-      name: req.body.name ? String(req.body.name).trim() : "",
-      mobileNumber,
-      email: req.body.email ? String(req.body.email).trim().toLowerCase() : undefined,
-      isVerified: true,
-      lastLogin: now,
-    });
-    isNewUser = true;
-  } else {
-    user.isVerified = true;
-    user.lastLogin = now;
-    await user.save();
+    throw new ApiError(401, "Invalid email or password.", "INVALID_CREDENTIALS");
   }
+
+  const isMatch = await user.comparePassword(password);
+  if (!isMatch) {
+    throw new ApiError(401, "Invalid email or password.", "INVALID_CREDENTIALS");
+  }
+
+  user.lastLogin = new Date();
+  await user.save();
 
   const accessToken = tokenService.signAccessToken(user);
-  const response = {
+
+  return ok(res, "Logged in successfully.", {
     accessToken,
     tokenType: "Bearer",
-    isNewUser,
+    isNewUser: false,
     user: user.toJSON(),
-  };
-
-  return isNewUser
-    ? created(res, "Account created and verified successfully.", response)
-    : ok(res, "Logged in successfully.", response);
-});
-
-const firebaseAuth = asyncHandler(async (req, res) => {
-  const { idToken, name } = req.body;
-
-  if (!idToken) {
-    throw new ApiError(400, "Firebase ID token is required.", "MISSING_ID_TOKEN");
-  }
-
-  const decodedToken = await admin.auth().verifyIdToken(idToken);
-  const mobileNumber = decodedToken.phone_number;
-
-  if (!mobileNumber) {
-    throw new ApiError(400, "Phone number not found in Firebase token.", "MISSING_PHONE_NUMBER");
-  }
-
-  const now = new Date();
-  let user = await User.findOne({ mobileNumber });
-  let isNewUser = false;
-
-  if (!user) {
-    user = await User.create({
-      name: name ? String(name).trim() : "",
-      mobileNumber,
-      isVerified: true,
-      lastLogin: now,
-    });
-    isNewUser = true;
-  } else {
-    user.isVerified = true;
-    user.lastLogin = now;
-    if (name) user.name = String(name).trim();
-    await user.save();
-  }
-
-  const accessToken = tokenService.signAccessToken(user);
-
-  return isNewUser
-    ? created(res, "Account created and verified successfully.", {
-        accessToken,
-        tokenType: "Bearer",
-        isNewUser,
-        user: user.toJSON(),
-      })
-    : ok(res, "Logged in successfully.", {
-        accessToken,
-        tokenType: "Bearer",
-        isNewUser,
-        user: user.toJSON(),
-      });
+  });
 });
 
 const logout = asyncHandler(async (_req, res) => {
@@ -129,8 +73,7 @@ const logout = asyncHandler(async (_req, res) => {
 });
 
 module.exports = {
-  sendOtp,
-  verifyOtp,
-  firebaseAuth,
+  signup,
+  login,
   logout,
 };

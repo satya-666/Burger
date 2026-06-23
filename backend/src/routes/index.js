@@ -13,7 +13,7 @@ router.get("/", (_req, res) => {
       version: "1.0.0",
       endpoints: {
         health: "/api/health",
-        auth: { sendOtp: "/api/auth/send-otp", verifyOtp: "/api/auth/verify-otp" },
+        auth: { signup: "/api/auth/signup", login: "/api/auth/login" },
         user: "/api/user/profile",
       },
     },

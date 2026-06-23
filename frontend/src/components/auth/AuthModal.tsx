@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { apiRequest, AuthUser } from "@/lib/api";
-import { sendFirebaseOtp, verifyFirebaseOtp, ConfirmationResult } from "@/lib/firebase";
 
-type FirebaseAuthData = {
+type AuthData = {
   accessToken: string;
   tokenType: "Bearer";
   isNewUser: boolean;
@@ -25,28 +24,25 @@ export default function AuthModal({
   onClose,
   onLogin,
 }: AuthModalProps) {
-  const [step, setStep] = useState<"mobile" | "otp">("mobile");
-  const [mobileNumber, setMobileNumber] = useState("+91");
+  const [mode, setMode] = useState<"login" | "signup">("login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [name, setName] = useState("");
-  const [otp, setOtp] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const confirmationResultRef = useRef<ConfirmationResult | null>(null);
-  const recaptchaId = "recaptcha-container";
 
   useEffect(() => {
     if (!isOpen) {
       return;
     }
 
-    setStep("mobile");
-    setMobileNumber("+91");
+    setMode("login");
+    setEmail("");
+    setPassword("");
     setName("");
-    setOtp("");
     setMessage("");
     setError("");
-    confirmationResultRef.current = null;
   }, [isOpen]);
 
   useEffect(() => {
@@ -69,44 +65,20 @@ export default function AuthModal({
     };
   }, [isOpen, onClose]);
 
-  const sendOtp = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
     setError("");
     setMessage("");
 
     try {
-      const confirmationResult = await sendFirebaseOtp(mobileNumber, recaptchaId);
-      confirmationResultRef.current = confirmationResult;
+      const endpoint = mode === "login" ? "/auth/login" : "/auth/signup";
+      const body: Record<string, string> = { email, password };
+      if (mode === "signup" && name) body.name = name;
 
-      setStep("otp");
-      setMessage("OTP sent to your phone.");
-    } catch (requestError) {
-      setError(
-        requestError instanceof Error
-          ? requestError.message
-          : "Unable to send OTP right now."
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const verifyOtp = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setLoading(true);
-    setError("");
-
-    try {
-      const confirmationResult = confirmationResultRef.current;
-      if (!confirmationResult) {
-        throw new Error("No OTP request found. Please request an OTP again.");
-      }
-
-      const idToken = await verifyFirebaseOtp(confirmationResult, otp);
-      const response = await apiRequest<FirebaseAuthData>("/auth/firebase", {
+      const response = await apiRequest<AuthData>(endpoint, {
         method: "POST",
-        body: JSON.stringify({ idToken, name }),
+        body: JSON.stringify(body),
       });
 
       onLogin(response.data.accessToken, response.data.user);
@@ -114,7 +86,7 @@ export default function AuthModal({
       setError(
         requestError instanceof Error
           ? requestError.message
-          : "Unable to verify OTP right now."
+          : "Something went wrong."
       );
     } finally {
       setLoading(false);
@@ -157,21 +129,46 @@ export default function AuthModal({
               </button>
             </div>
 
-            <div id={recaptchaId} />
+            <div className="mb-4 flex gap-2">
+              <button
+                type="button"
+                onClick={() => setMode("login")}
+                className={`flex-1 rounded-full px-4 py-2 text-sm font-black transition-colors ${
+                  mode === "login"
+                    ? "bg-red text-white"
+                    : "bg-charcoal/10 text-charcoal"
+                }`}
+              >
+                Login
+              </button>
+              <button
+                type="button"
+                onClick={() => setMode("signup")}
+                className={`flex-1 rounded-full px-4 py-2 text-sm font-black transition-colors ${
+                  mode === "signup"
+                    ? "bg-red text-white"
+                    : "bg-charcoal/10 text-charcoal"
+                }`}
+              >
+                Sign Up
+              </button>
+            </div>
 
-            {step === "mobile" ? (
-              <form onSubmit={sendOtp} className="space-y-4">
-                <label className="block">
-                  <span className="mb-2 block text-xs font-black uppercase text-charcoal/60">
-                    Mobile number
-                  </span>
-                  <input
-                    value={mobileNumber}
-                    onChange={(event) => setMobileNumber(event.target.value)}
-                    className="w-full rounded-xl border-2 border-charcoal bg-white px-4 py-3 text-base font-bold outline-none focus:border-red"
-                    required
-                  />
-                </label>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <label className="block">
+                <span className="mb-2 block text-xs font-black uppercase text-charcoal/60">
+                  Email
+                </span>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  className="w-full rounded-xl border-2 border-charcoal bg-white px-4 py-3 text-base font-bold outline-none focus:border-red"
+                  required
+                />
+              </label>
+
+              {mode === "signup" && (
                 <label className="block">
                   <span className="mb-2 block text-xs font-black uppercase text-charcoal/60">
                     Name
@@ -182,46 +179,34 @@ export default function AuthModal({
                     className="w-full rounded-xl border-2 border-charcoal/20 bg-white px-4 py-3 text-base font-bold outline-none focus:border-red"
                   />
                 </label>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="display-text w-full rounded-full bg-red px-5 py-4 text-lg text-white transition-colors hover:bg-red-dark disabled:cursor-wait disabled:opacity-60"
-                >
-                  {loading ? "Sending..." : "Send OTP"}
-                </button>
-              </form>
-            ) : (
-              <form onSubmit={verifyOtp} className="space-y-4">
-                <label className="block">
-                  <span className="mb-2 block text-xs font-black uppercase text-charcoal/60">
-                    OTP
-                  </span>
-                  <input
-                    value={otp}
-                    onChange={(event) => setOtp(event.target.value)}
-                    inputMode="numeric"
-                    className="w-full rounded-xl border-2 border-charcoal bg-white px-4 py-3 text-base font-bold tracking-[0.35em] outline-none focus:border-red"
-                    required
-                  />
-                </label>
-                <div className="flex flex-col gap-3 sm:flex-row">
-                  <button
-                    type="button"
-                    onClick={() => setStep("mobile")}
-                    className="display-text rounded-full border-2 border-charcoal px-5 py-3 text-base"
-                  >
-                    Back
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="display-text flex-1 rounded-full bg-red px-5 py-3 text-base text-white transition-colors hover:bg-red-dark disabled:cursor-wait disabled:opacity-60"
-                  >
-                    {loading ? "Verifying..." : "Verify & Continue"}
-                  </button>
-                </div>
-              </form>
-            )}
+              )}
+
+              <label className="block">
+                <span className="mb-2 block text-xs font-black uppercase text-charcoal/60">
+                  Password
+                </span>
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                  className="w-full rounded-xl border-2 border-charcoal bg-white px-4 py-3 text-base font-bold outline-none focus:border-red"
+                  required
+                  minLength={6}
+                />
+              </label>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="display-text w-full rounded-full bg-red px-5 py-4 text-lg text-white transition-colors hover:bg-red-dark disabled:cursor-wait disabled:opacity-60"
+              >
+                {loading
+                  ? "Please wait..."
+                  : mode === "login"
+                    ? "Login"
+                    : "Create Account"}
+              </button>
+            </form>
 
             {(message || error) && (
               <p
