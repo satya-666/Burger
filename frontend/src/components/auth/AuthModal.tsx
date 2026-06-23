@@ -1,17 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { apiRequest, AuthUser } from "@/lib/api";
+import { sendFirebaseOtp, verifyFirebaseOtp, ConfirmationResult } from "@/lib/firebase";
 
-type SendOtpData = {
-  mobileNumber: string;
-  channel: string;
-  expiresInMinutes: number;
-  devOtp?: string;
-};
-
-type VerifyOtpData = {
+type FirebaseAuthData = {
   accessToken: string;
   tokenType: "Bearer";
   isNewUser: boolean;
@@ -38,6 +32,8 @@ export default function AuthModal({
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const confirmationResultRef = useRef<ConfirmationResult | null>(null);
+  const recaptchaId = "recaptcha-container";
 
   useEffect(() => {
     if (!isOpen) {
@@ -50,6 +46,7 @@ export default function AuthModal({
     setOtp("");
     setMessage("");
     setError("");
+    confirmationResultRef.current = null;
   }, [isOpen]);
 
   useEffect(() => {
@@ -79,17 +76,11 @@ export default function AuthModal({
     setMessage("");
 
     try {
-      const response = await apiRequest<SendOtpData>("/auth/send-otp", {
-        method: "POST",
-        body: JSON.stringify({ mobileNumber }),
-      });
+      const confirmationResult = await sendFirebaseOtp(mobileNumber, recaptchaId);
+      confirmationResultRef.current = confirmationResult;
 
       setStep("otp");
-      setMessage(
-        response.data.devOtp
-          ? `Development OTP: ${response.data.devOtp}`
-          : `OTP sent by ${response.data.channel}.`
-      );
+      setMessage("OTP sent to your phone.");
     } catch (requestError) {
       setError(
         requestError instanceof Error
@@ -107,13 +98,15 @@ export default function AuthModal({
     setError("");
 
     try {
-      const response = await apiRequest<VerifyOtpData>("/auth/verify-otp", {
+      const confirmationResult = confirmationResultRef.current;
+      if (!confirmationResult) {
+        throw new Error("No OTP request found. Please request an OTP again.");
+      }
+
+      const idToken = await verifyFirebaseOtp(confirmationResult, otp);
+      const response = await apiRequest<FirebaseAuthData>("/auth/firebase", {
         method: "POST",
-        body: JSON.stringify({
-          mobileNumber,
-          otp,
-          name,
-        }),
+        body: JSON.stringify({ idToken, name }),
       });
 
       onLogin(response.data.accessToken, response.data.user);
@@ -163,6 +156,8 @@ export default function AuthModal({
                 X
               </button>
             </div>
+
+            <div id={recaptchaId} />
 
             {step === "mobile" ? (
               <form onSubmit={sendOtp} className="space-y-4">
